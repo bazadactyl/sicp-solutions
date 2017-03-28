@@ -11,12 +11,12 @@
           (iterate next-guess))))
   iterate)
 
-(define (fixed-point f first-guess tolerance)
+(define (fixed-point fn first-guess tolerance)
   (define (close-enough? num1 num2)
     (< (diff num1 num2) tolerance))
-  (define (next guess)
-    (f guess))
-  ((iterative-improve close-enough? next) first-guess))
+  (define (improve guess)
+    (fn guess))
+  ((iterative-improve close-enough? improve) first-guess))
 
 (define (sqrt x)
   (let ((first-guess 1.0)

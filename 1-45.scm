@@ -2,7 +2,7 @@
 
 (define (diff x y) (abs (- x y)))
 (define (average x y) (/ (+ x y) 2))
-(define tolerance 0.00001)
+(define tolerance 0.000000000000001)
 
 (define (fixed-point fn first-guess)
   (define (close-enough? num1 num2)
@@ -52,4 +52,4 @@
 (nth-root 2 144)
 (nth-root 3 1000)
 (nth-root 4 625)
-(nth-root 200 1729)
+(nth-root 100 103901)

@@ -1,7 +1,7 @@
 #lang sicp
 
-(define (average a b)
-  (/ (+ a b) 2))
+(define (square x) (* x x))
+(define (average a b) (/ (+ a b) 2))
 
 (define (make-point x y)
  (cons x y))
@@ -17,8 +17,8 @@
         (x2 (x-point p2))
         (y1 (y-point p1))
         (y2 (y-point p2)))
-    (abs (/ (- y2 y1)
-            (- x2 x1)))))
+    (sqrt (+ (square (- y2 y1))
+             (square (- x2 x1))))))
 
 (define (print-point-inline p)
   (display "(")
@@ -31,8 +31,9 @@
   (newline)
   (print-point-inline p))
 
-(define (make-rect-relative point angle length height)
-  (cons point (cons angle (cons length height))))
+;; Use of rectangle angle is not implemented.
+(define (make-rect-relative upper-left-point angle length height)
+  (cons upper-left-point (cons angle (cons length height))))
 
 (define (rect-relative-length rect) (caddr rect))
 (define (rect-relative-height rect) (cdddr rect))
@@ -52,17 +53,19 @@
 (define (rect-absolute-length rect)
   (point-distance (rect-absolute-upper-left rect)
                   (rect-absolute-upper-right rect)))
+
 (define (rect-absolute-height rect)
   (point-distance (rect-absolute-upper-left rect)
                   (rect-absolute-lower-left rect)))
 
-(define (rect-perimeter rect length-fn height-fn)
-  (+ (* 2 (length-fn rect))
-     (* 2 (height-fn rect))))
+(define (rect-perimeter rect get-length get-height)
+  (+ (* 2 (get-length rect))
+     (* 2 (get-height rect))))
 
-(define (rect-area rect length-fn height-fn)
-  (* (length-fn rect) (height-fn rect)))
+(define (rect-area rect get-length get-height)
+  (* (get-length rect) (get-height rect)))
 
+;; Create two identical rectangles using the two representations.
 (define rect-rel (make-rect-relative (make-point 0 5) 0 8 5))
 (define rect-abs (make-rect-absolute (make-point 0 5) (make-point 8 5)
                                      (make-point 0 0) (make-point 8 0)))

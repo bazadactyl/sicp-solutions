@@ -1,8 +1,18 @@
-#lang sicp
+#lang racket
 
 (define (make-interval a b) (cons a b))
 (define (lower-bound x) (car x))
 (define (upper-bound x) (cdr x))
+
+(define (spans-zero? x)
+  (let ((a (lower-bound x))
+        (b (upper-bound x)))
+    (if (or (zero? a)
+            (zero? b)
+            (and (positive? a) (negative? b))
+            (and (positive? b) (negative? a)))
+        #t
+        #f)))
 
 (define (add-interval x y)
   (make-interval (+ (lower-bound x)
@@ -23,10 +33,12 @@
                    (max p1 p2 p3 p4))))
 
 (define (div-interval x y)
-  (mul-interval x
-                (make-interval
-                 (/ 1.0 (upper-bound y))
-                 (/ 1.0 (lower-bound y)))))
+  (if (spans-zero? y)
+      (error "Divisor invterval spans zero.")
+      (mul-interval x
+                    (make-interval
+                     (/ 1.0 (upper-bound y))
+                     (/ 1.0 (lower-bound y))))))
 
 (define (sub-interval x y)
   (let ((a (- (upper-bound y)
@@ -36,3 +48,9 @@
     (if (< a b)
         (make-interval a b)
         (make-interval b a))))
+
+(define a (make-interval 1 3))
+(define b (make-interval -2 2))
+(div-interval a a) ; works
+(div-interval b a) ; works
+(div-interval a b) ; won't work

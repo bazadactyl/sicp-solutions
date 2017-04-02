@@ -34,7 +34,7 @@
 
 (define (div-interval x y)
   (if (spans-zero? y)
-      (error "Divisor invterval spans zero.")
+      (error "Divisor interval spans zero.")
       (mul-interval x
                     (make-interval
                      (/ 1.0 (upper-bound y))

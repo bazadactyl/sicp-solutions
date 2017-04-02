@@ -13,4 +13,4 @@
 (car (cons 2 2))
 (cdr (cons 2 2))
 (car (cons 3 3))
-(cdr (cons 3 3))     
+(cdr (cons 3 3))
